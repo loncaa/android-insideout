@@ -7,7 +7,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import hr.magicpot.app.insideout.MainApplication;
@@ -77,7 +76,7 @@ public class LocationManagerImpl implements LocationManager {
                                     listener.onStoreSuccess(location);
                             }
                             else
-                                listener.onMessage("Location already setted.");
+                                listener.onMessage("Location is already set.");
 
                         } catch (SQLException e) {
                             listener.onMessage("Storing data failed.");

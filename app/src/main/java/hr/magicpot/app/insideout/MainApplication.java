@@ -12,21 +12,15 @@ import hr.magicpot.app.insideout.storage.db.DBHelper;
  */
 public class MainApplication extends Application {
     private static DBHelper dbHelper;
-    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         dbHelper = new DBHelper(this);
-        context = getApplicationContext();
     }
 
     public static DBHelper getDbHelper() {
         return dbHelper;
-    }
-
-    public static SharedPreferences getSharedPref(String name, int mode){
-        return context.getApplicationContext().getSharedPreferences(name, mode);
     }
 }

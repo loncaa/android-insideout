@@ -22,8 +22,7 @@ public class Location {
 
         Location location = (Location) o;
 
-        if (Double.compare(location.lng, lng) != 0) return false;
-        return Double.compare(location.lat, lat) == 0;
+        return Double.compare(location.lng, lng) == 0 && Double.compare(location.lat, lat) == 0;
 
     }
 

@@ -3,10 +3,16 @@ package hr.magicpot.app.insideout.storage.db.manager.impl;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import hr.magicpot.app.insideout.MainApplication;
+import hr.magicpot.app.insideout.presentation.UserLogPresenter;
 import hr.magicpot.app.insideout.storage.db.DBHelper;
 import hr.magicpot.app.insideout.storage.db.manager.UserLogManager;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
@@ -25,28 +31,22 @@ public class UserLogManagerImpl implements UserLogManager{
     }
 
     @Override
-    public void store(final UserLog model, final onDatabaseConnection listener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            helper.getUserLogDao().createOrUpdate(model);
-                            listener.onStoreSuccess(model);
-                        } catch (SQLException e) {
-                            listener.onMessage("Storing data failed.");
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }).start();
+    public UserLog store(final UserLog model) {
+        Dao.CreateOrUpdateStatus status = null;
+        try {
+            status = helper.getUserLogDao().createOrUpdate(model);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(status != null && status.isCreated())
+            return model;
+
+        return null;
     }
 
     @Override
-    public void fetchAll(final onDatabaseConnection listener) {
+    public void fetchAllAsync(final UserLogPresenter.OnUserLogEvent event) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -55,14 +55,53 @@ public class UserLogManagerImpl implements UserLogManager{
                     public void run() {
                         try {
                             List<UserLog> lists  = helper.getUserLogDao().queryForAll();
-                            listener.onFetchAllSuccess(lists);
+                            if(lists.size() > 0)
+                                event.onLogListFeched(lists);
+                            else
+                                event.onMessageEvent("List is empty.");
                         } catch (SQLException e) {
-                            listener.onMessage("Fetching data failed.");
                             e.printStackTrace();
+                            event.onMessageEvent("Fetch db failed.");
                         }
                     }
                 });
             }
         }).start();
     }
+
+    @Override
+    public List<UserLog>  fetchAll() {
+        try {
+            List<UserLog> lists  = helper.getUserLogDao().queryForAll();
+            return lists;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    @Override
+    public UserLog updateLast(final Date end) {
+        try {
+            QueryBuilder<UserLog, Integer> builder = helper.getUserLogDao().queryBuilder();
+            builder.limit(1L);
+            builder.orderBy("end", false);  // true for ascending, false for descending
+            List<UserLog> list = helper.getUserLogDao().query(builder.prepare());  // returns list of ten items
+
+            if(list.size() == 1){
+                UserLog last = list.get(0);
+                if(last.getEnd().compareTo(last.getStart()) == 0){
+                    last.setEnd(end);
+                    helper.getUserLogDao().createOrUpdate(last);
+                    return last;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

@@ -1,49 +1,35 @@
 package hr.magicpot.app.insideout.storage.db.interactor.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import hr.magicpot.app.insideout.presentation.UserLogPresenter;
 import hr.magicpot.app.insideout.storage.db.interactor.UserLogInteractor;
 import hr.magicpot.app.insideout.storage.db.manager.UserLogManager;
 import hr.magicpot.app.insideout.storage.db.manager.impl.UserLogManagerImpl;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
 /**
- * Created by Antonio on 5.9.2017..
+ * Created by Antonio on 11.9.2017..
  */
 
-public class UserLogInteractorImpl implements UserLogInteractor, UserLogManager.onDatabaseConnection {
+public class UserLogInteractorImpl implements UserLogInteractor{
     private final UserLogManager userLogManager;
-    private final onDatabaseListener checkListener;
 
-    public UserLogInteractorImpl(UserLogInteractor.onDatabaseListener checkListener) {
+    public UserLogInteractorImpl() {
         this.userLogManager = new UserLogManagerImpl();
-        this.checkListener = checkListener;
-    }
-
-    //IN
-    @Override
-    public void store(UserLog model) {
-        userLogManager.store(model, this);
     }
 
     @Override
-    public void fetchAll() {
-        userLogManager.fetchAll(this);
-    }
-
-    //OUT
-    @Override
-    public void onMessage(String msg) {
-        checkListener.onMessage(msg);
+    public UserLog store(UserLog userLog) {
+        return userLogManager.store(userLog);
     }
 
     @Override
-    public void onStoreSuccess(UserLog log) {
-
-    }
+    public void fetchAll(UserLogPresenter.OnUserLogEvent event) { userLogManager.fetchAllAsync(event); }
 
     @Override
-    public void onFetchAllSuccess(List<UserLog> logs) {
-
+    public UserLog updateLast(Date end) {
+        return userLogManager.updateLast(end);
     }
 }

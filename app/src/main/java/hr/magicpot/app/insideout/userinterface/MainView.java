@@ -11,4 +11,6 @@ public interface MainView {
     void showResetButton();
     void hideResetButton();
 
+    void showSettingsAlert();
+
 }

@@ -2,7 +2,7 @@ package hr.magicpot.app.insideout.storage.db.interactor.impl;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import hr.magicpot.app.insideout.storage.db.interactor.LocationInteractor;
+import hr.magicpot.app.insideout.storage.db.interactor.PinLocationInteractor;
 import hr.magicpot.app.insideout.storage.db.manager.LocationManager;
 import hr.magicpot.app.insideout.storage.db.manager.impl.LocationManagerImpl;
 import hr.magicpot.app.insideout.storage.db.model.Location;
@@ -11,11 +11,11 @@ import hr.magicpot.app.insideout.storage.db.model.Location;
  * Created by Antonio on 5.9.2017..
  */
 
-public class LocationInteractorImpl implements LocationInteractor, LocationManager.onDatabaseConnection {
+public class PinLocationInteractorImpl implements PinLocationInteractor, LocationManager.onDatabaseConnection {
     private final LocationManager locationManager;
     private final onDatabaseListener checkListener;
 
-    public LocationInteractorImpl(onDatabaseListener checkListener) {
+    public PinLocationInteractorImpl(onDatabaseListener checkListener) {
         this.locationManager = new LocationManagerImpl();
         this.checkListener = checkListener;
     }
@@ -26,7 +26,8 @@ public class LocationInteractorImpl implements LocationInteractor, LocationManag
     }
 
     @Override
-    public void onFetchSuccess(Location location) { checkListener.onLocationFetchSuccess(location); }
+    public void onFetchSuccess(Location location) {
+        checkListener.onLocationFetchSuccess(location); }
 
 
     @Override
@@ -35,11 +36,15 @@ public class LocationInteractorImpl implements LocationInteractor, LocationManag
     }
 
     @Override
-    public void onStoreSuccess(Location location) { checkListener.onLocationStoreSuccess(location); }
+    public void onStoreSuccess(Location location) {
+        checkListener.onLocationStoreSuccess(location);
+    }
 
 
     @Override
-    public void deleteSetLocation() { locationManager.deleteLocations(this); }
+    public void deleteSetLocation() {
+        locationManager.deleteLocations(this);
+    }
 
 
     @Override
@@ -48,5 +53,6 @@ public class LocationInteractorImpl implements LocationInteractor, LocationManag
     }
 
     @Override
-    public void onDeleteSuccess() { checkListener.onLocationDeleteSuccess(); }
+    public void onDeleteSuccess() {
+        checkListener.onLocationDeleteSuccess(); }
 }

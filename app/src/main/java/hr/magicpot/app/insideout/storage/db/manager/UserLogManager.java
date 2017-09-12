@@ -1,7 +1,9 @@
 package hr.magicpot.app.insideout.storage.db.manager;
 
+import java.util.Date;
 import java.util.List;
 
+import hr.magicpot.app.insideout.presentation.UserLogPresenter;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
 /**
@@ -9,13 +11,11 @@ import hr.magicpot.app.insideout.storage.db.model.UserLog;
  */
 
 public interface UserLogManager {
-    interface onDatabaseConnection{
-        void onMessage(String msg);
-        void onStoreSuccess(UserLog log);
-        void onFetchAllSuccess(List<UserLog> log);
-    }
+    UserLog store(UserLog model);
 
-    void store(UserLog model, onDatabaseConnection listener);
+    List<UserLog> fetchAll();
 
-    void fetchAll(onDatabaseConnection listener);
+    void fetchAllAsync(UserLogPresenter.OnUserLogEvent event);
+
+    UserLog updateLast(Date end);
 }

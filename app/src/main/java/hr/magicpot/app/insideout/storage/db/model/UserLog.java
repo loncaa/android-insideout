@@ -12,8 +12,8 @@ import java.util.Date;
 @DatabaseTable(tableName = "USERLOG")
 public class UserLog {
     @DatabaseField(generatedId = true, dataType = DataType.INTEGER) private int id;
-    @DatabaseField(dataType = DataType.DATE) private Date created;
-    @DatabaseField(dataType = DataType.DOUBLE) private double timeInside;
+    @DatabaseField(columnName = "start", dataType = DataType.DATE) private Date start;
+    @DatabaseField(columnName = "end", dataType = DataType.DATE) private Date end;
 
     public UserLog() { }
 
@@ -25,19 +25,19 @@ public class UserLog {
         this.id = id;
     }
 
-    public Date getCreated() {
-        return created;
+    public Date getStart() {
+        return start;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public double getTimeInside() {
-        return timeInside;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setTimeInside(double timeInside) {
-        this.timeInside = timeInside;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 }

@@ -1,21 +1,25 @@
 package hr.magicpot.app.insideout.storage.db.interactor;
 
+import java.util.Date;
 import java.util.List;
 
+import hr.magicpot.app.insideout.presentation.UserLogPresenter;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
 /**
- * Created by Antonio on 5.9.2017..
+ * Created by Antonio on 11.9.2017..
  */
 
 public interface UserLogInteractor {
-
-    interface onDatabaseListener extends Interactor.onDatabaseListener {
-        void onUserLogStoreSuccess(UserLog userLog);
-        void onFetchSuccess(List<UserLog> userLogs);
+    interface DatabaseListener extends Interactor.onDatabaseListener {
+        void onLogStoreSuccess(UserLog userLog);
+        void onLogFetchSuccess(List<UserLog> userLog);
+        void onUpdateSuccess(UserLog userLog);
     }
 
-    void store(UserLog model);
+    UserLog store(UserLog userLog);
 
-    void fetchAll();
+    void fetchAll(UserLogPresenter.OnUserLogEvent event);
+
+    UserLog updateLast(Date end);
 }
