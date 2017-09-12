@@ -35,7 +35,7 @@ public class UserLogListAdapter extends ArrayAdapter<UserLog> {
 
         layoutRes = resource;
 
-        objects.set(0, new UserLog());
+        objects.add(0, new UserLog());
 
         for (int i = 0; i < objects.size(); ++i) {
             mIdMap.put(i, objects.get(i));
