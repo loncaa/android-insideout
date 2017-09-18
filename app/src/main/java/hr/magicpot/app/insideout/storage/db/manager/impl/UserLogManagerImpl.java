@@ -82,20 +82,18 @@ public class UserLogManagerImpl implements UserLogManager{
     }
 
     @Override
-    public UserLog updateLast(final Date end) {
+    public UserLog setEndTime(final Date end) {
         try {
             QueryBuilder<UserLog, Integer> builder = helper.getUserLogDao().queryBuilder();
             builder.limit(1L);
-            builder.orderBy("end", false);  // true for ascending, false for descending
+            builder.orderBy("start", false);  // true for ascending, false for descending
             List<UserLog> list = helper.getUserLogDao().query(builder.prepare());  // returns list of ten items
 
             if(list.size() == 1){
                 UserLog last = list.get(0);
-                if(last.getEnd().compareTo(last.getStart()) == 0){
-                    last.setEnd(end);
-                    helper.getUserLogDao().createOrUpdate(last);
-                    return last;
-                }
+                last.setEnd(end);
+                helper.getUserLogDao().createOrUpdate(last);
+                return last;
             }
         } catch (SQLException e) {
             e.printStackTrace();

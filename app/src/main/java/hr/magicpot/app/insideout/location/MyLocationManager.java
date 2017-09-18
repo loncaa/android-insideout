@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -45,23 +46,7 @@ public class MyLocationManager extends Service {
 
         @Override
         public void onLocationChanged(Location location) {
-            boolean isInside = isInsideCircle(location);
-            boolean isLogged = sharedPref.getBoolean(MyLocationManager.FLAG, false);
-
-            if(isInside && !isLogged) {
-                UserLog userLog = new UserLog();
-                userLog.setStart(new Date());
-                userLog.setEnd(new Date());
-
-                UserLog res = userLogInteractor.store(userLog);
-                if(res != null)
-                    putInSharedPreferences(sharedPref, true, MyLocationManager.FLAG);
-            }
-            else if(!isInside && isLogged){
-                UserLog res = userLogInteractor.updateLast(new Date());
-                if(res != null)
-                    putInSharedPreferences(sharedPref, false, MyLocationManager.FLAG);
-            }
+            onMyLocationChanged(location);
         }
 
         @Override
@@ -77,12 +62,6 @@ public class MyLocationManager extends Service {
         @Override
         public void onProviderDisabled(String provider) {
 
-        }
-
-        private boolean isInsideCircle(android.location.Location location) {
-            float[] distance = new float[2];
-            android.location.Location.distanceBetween(location.getLatitude(), location.getLongitude(), lat, lng, distance);
-            return distance[0] < radisu;
         }
     };
 
@@ -104,14 +83,15 @@ public class MyLocationManager extends Service {
             }
         }
 
-        startLocationService(intent);
+        if(intent != null)
+            startLocationService(intent);
 
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        userLogInteractor.updateLast(new Date());
+        userLogInteractor.setEndTime(new Date());
 
         putInSharedPreferences(sharedPref, false, MyLocationManager.FLAG);
 
@@ -123,10 +103,10 @@ public class MyLocationManager extends Service {
         lng = intent.getDoubleExtra("lng", 0);
         radisu = intent.getDoubleExtra("radisu", 0);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {return;}
+
+        Location location = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        onMyLocationChanged(location);
 
         this.locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
@@ -146,6 +126,30 @@ public class MyLocationManager extends Service {
         editor.apply();
     }
 
+    private void onMyLocationChanged(Location location) {
+        boolean isInside = isInsideCircle(location);
+        boolean isLogged = sharedPref.getBoolean(MyLocationManager.FLAG, false);
+
+        if(isInside && !isLogged) {
+            UserLog userLog = new UserLog();
+            userLog.setStart(new Date());
+
+            UserLog res = userLogInteractor.store(userLog);
+            if(res != null)
+                putInSharedPreferences(sharedPref, true, MyLocationManager.FLAG);
+        }
+        else if(!isInside && isLogged){
+            UserLog res = userLogInteractor.setEndTime(new Date());
+            if(res != null)
+                putInSharedPreferences(sharedPref, false, MyLocationManager.FLAG);
+        }
+    }
+
+    private boolean isInsideCircle(android.location.Location location) {
+        float[] distance = new float[2];
+        android.location.Location.distanceBetween(location.getLatitude(), location.getLongitude(), lat, lng, distance);
+        return distance[0] < radisu;
+    }
 
     @Nullable
     @Override

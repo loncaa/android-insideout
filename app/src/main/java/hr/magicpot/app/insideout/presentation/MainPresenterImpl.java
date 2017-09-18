@@ -3,13 +3,17 @@ package hr.magicpot.app.insideout.presentation;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -58,7 +62,7 @@ public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.o
         SupportMapFragment mapFragment = (SupportMapFragment) mainActivity.getSupportFragmentManager().findFragmentById(mapId);
         mapFragment.getMapAsync(this);
     }
-
+    
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
@@ -119,6 +123,8 @@ public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.o
     }
 
     private void startTracking(Location location) {
+        Log.d("LOC", "lat: " + location.getLat() + " lng: " + location.getLng());
+
         mainActivity.showResetButton();
         setMarkerData(location);
 
@@ -144,12 +150,34 @@ public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.o
                 .strokeWidth(2));
     }
 
-    private void stopTracking() {
+    public void stopTracking() {
         mainActivity.hideResetButton();
 
         markerLocation.remove();
         circleLocation.remove();
 
         mainActivity.stopService(locatonIntent);
+    }
+
+    public void showSettingsDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mainActivity);
+
+        alertDialog.setTitle("GPS is settings");
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                mainActivity.startActivity(intent);
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        alertDialog.show();
     }
 }

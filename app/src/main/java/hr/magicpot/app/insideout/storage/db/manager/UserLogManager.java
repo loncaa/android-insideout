@@ -17,5 +17,5 @@ public interface UserLogManager {
 
     void fetchAllAsync(UserLogPresenter.OnUserLogEvent event);
 
-    UserLog updateLast(Date end);
+    UserLog setEndTime(Date end);
 }

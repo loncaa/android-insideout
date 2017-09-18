@@ -80,24 +80,12 @@ public class MainActivity extends AppCompatActivity implements MainView{
 
     @Override
     public void showSettingsAlert(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        mainPresenter.showSettingsDialog();
+    }
 
-        alertDialog.setTitle("GPS is settings");
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
-
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        });
-
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        alertDialog.show();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.processResetButton();
     }
 }

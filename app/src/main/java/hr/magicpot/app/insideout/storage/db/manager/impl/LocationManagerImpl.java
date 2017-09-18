@@ -98,11 +98,10 @@ public class LocationManagerImpl implements LocationManager {
                     public void run() {
                         try {
                             List<Location> lists = helper.getLocationDao().queryForAll();
-                            if(lists.size() > 0)
+                            if(lists.size() > 0 && lists.get(0) != null)
                                 listener.onFetchSuccess(lists.get(0));
                             else
                                 listener.onMessage("Long tap on map to set location.");
-
 
                         } catch (SQLException e) {
                             listener.onMessage("Fetching data failed");

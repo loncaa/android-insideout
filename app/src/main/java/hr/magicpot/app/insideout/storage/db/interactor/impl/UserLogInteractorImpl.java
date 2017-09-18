@@ -1,7 +1,6 @@
 package hr.magicpot.app.insideout.storage.db.interactor.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import hr.magicpot.app.insideout.presentation.UserLogPresenter;
 import hr.magicpot.app.insideout.storage.db.interactor.UserLogInteractor;
@@ -29,7 +28,7 @@ public class UserLogInteractorImpl implements UserLogInteractor{
     public void fetchAll(UserLogPresenter.OnUserLogEvent event) { userLogManager.fetchAllAsync(event); }
 
     @Override
-    public UserLog updateLast(Date end) {
-        return userLogManager.updateLast(end);
+    public UserLog setEndTime(Date end) {
+        return userLogManager.setEndTime(end);
     }
 }

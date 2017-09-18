@@ -35,8 +35,6 @@ public class UserLogListAdapter extends ArrayAdapter<UserLog> {
 
         layoutRes = resource;
 
-        objects.add(0, new UserLog());
-
         for (int i = 0; i < objects.size(); ++i) {
             mIdMap.put(i, objects.get(i));
         }
@@ -58,25 +56,29 @@ public class UserLogListAdapter extends ArrayAdapter<UserLog> {
         TextView textViewM = (TextView) rowView.findViewById(R.id.endtime);
         TextView textViewR = (TextView) rowView.findViewById(R.id.duration);
 
-        if(position == 0){
-            textViewL.setText("START");
-            textViewL.setTypeface(Typeface.DEFAULT_BOLD);
+        UserLog log = mIdMap.get(position);
+        textViewL.setText(DateFormat.format("hh:mm:ss", log.getStart()));
 
-            textViewM.setText("END");
-            textViewM.setTypeface(Typeface.DEFAULT_BOLD);
-
-            textViewR.setText("DURATION");
-            textViewR.setTypeface(Typeface.DEFAULT_BOLD);
+        if(log.getEnd() == null) {
+            textViewM.setText("-");
+            textViewR.setText("?");
         }
         else {
-            UserLog log = mIdMap.get(position);
-            textViewL.setText(DateFormat.format("hh:mm:ss", log.getStart()));
             textViewM.setText(DateFormat.format("hh:mm:ss", log.getEnd()));
 
-            double duration = (log.getEnd().getTime() - log.getStart().getTime())/1000;
+            double duration = (log.getEnd().getTime() - log.getStart().getTime())/1000.0;
 
-            textViewR.setText(""+duration+" sec");
+            String durationText = "";
+            if(duration < 60)
+                durationText = Math.round(duration * 100)/100.0 +" s";
+            else if(duration > 60 && duration < 60*60)
+                durationText = Math.round(duration/60.0 * 100)/100.0+" m";
+            else if(duration > 60*60)
+                durationText =  Math.round(duration/(60.0*60.0) * 100)/100.0+" h";
+
+            textViewR.setText(durationText);
         }
+
 
         return rowView;
     }
