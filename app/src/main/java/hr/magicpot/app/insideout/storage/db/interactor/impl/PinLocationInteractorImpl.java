@@ -10,7 +10,6 @@ import hr.magicpot.app.insideout.storage.db.model.Location;
 /**
  * Created by Antonio on 5.9.2017..
  */
-
 public class PinLocationInteractorImpl implements PinLocationInteractor, LocationManager.onDatabaseConnection {
     private final LocationManager locationManager;
     private final onDatabaseListener checkListener;
@@ -39,7 +38,6 @@ public class PinLocationInteractorImpl implements PinLocationInteractor, Locatio
     public void onStoreSuccess(Location location) {
         checkListener.onLocationStoreSuccess(location);
     }
-
 
     @Override
     public void deleteSetLocation() {

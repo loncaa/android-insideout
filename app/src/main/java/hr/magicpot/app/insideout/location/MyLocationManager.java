@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import java.util.Date;
 
@@ -27,7 +26,7 @@ import hr.magicpot.app.insideout.storage.db.model.UserLog;
  */
 
 public class MyLocationManager extends Service {
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 3; // 3 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 3 meters
     private static final long MIN_TIME_BW_UPDATES = 1000 * 0 * 1; // 1 minute
     private static final String FLAG = "flag";
 
@@ -106,7 +105,8 @@ public class MyLocationManager extends Service {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {return;}
 
         Location location = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        onMyLocationChanged(location);
+        if(location != null)
+            onMyLocationChanged(location);
 
         this.locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,

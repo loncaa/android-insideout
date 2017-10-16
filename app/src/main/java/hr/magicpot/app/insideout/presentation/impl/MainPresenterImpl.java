@@ -1,20 +1,19 @@
-package hr.magicpot.app.insideout.presentation;
+package hr.magicpot.app.insideout.presentation.impl;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
-import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,13 +29,13 @@ import hr.magicpot.app.insideout.location.MyLocationManager;
 import hr.magicpot.app.insideout.storage.db.interactor.PinLocationInteractor;
 import hr.magicpot.app.insideout.storage.db.interactor.impl.PinLocationInteractorImpl;
 import hr.magicpot.app.insideout.storage.db.model.Location;
-import hr.magicpot.app.insideout.userinterface.MainActivity;
+import hr.magicpot.app.insideout.userinterface.impl.MainActivity;
 
 /**
  * Created by Antonio on 5.9.2017..
  */
 
-public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.onDatabaseListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private final MainActivity mainActivity;
     private final PinLocationInteractor pinLocationInteractor;
@@ -45,7 +44,7 @@ public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.o
 
     private Marker markerLocation;
     private Circle circleLocation;
-    private final double circleRadius = 50;
+    private double circleRadius = 50;
 
     private LocationManager locationManager;
 
@@ -88,6 +87,9 @@ public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.o
 
     @Override
     public void onMapLongClick(LatLng latLng) {
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mainActivity.getBaseContext());
+        circleRadius = Double.parseDouble(SP.getString("radius", "50"));
+
         boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if(isGPSEnabled)
@@ -101,7 +103,6 @@ public class MainPresenterImpl implements MainPresenter, PinLocationInteractor.o
         startTracking(location);
     }
 
-    @Override
     public void processResetButton() {
         pinLocationInteractor.deleteSetLocation();
     }

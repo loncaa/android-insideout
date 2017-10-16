@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MainApplication"
@@ -18,7 +19,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".userinterface.MainActivity">
+        <activity android:name=".userinterface.impl.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,8 @@
 
         <service android:name=".location.MyLocationManager" />
 
-        <activity android:name=".userinterface.UserLogActivityImpl"></activity>
+        <activity android:name=".userinterface.impl.UserLogActivityImpl"></activity>
+        <activity android:name=".userinterface.MyPreferencesActivity"></activity>
     </application>
 
 </manifest>

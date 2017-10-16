@@ -1,11 +1,8 @@
-package hr.magicpot.app.insideout.userinterface;
+package hr.magicpot.app.insideout.userinterface.impl;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,9 +11,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import hr.magicpot.app.insideout.R;
-import hr.magicpot.app.insideout.presentation.MainPresenterImpl;
+import hr.magicpot.app.insideout.presentation.impl.MainPresenterImpl;
+import hr.magicpot.app.insideout.userinterface.MainView;
+import hr.magicpot.app.insideout.userinterface.MyPreferencesActivity;
 
-public class MainActivity extends AppCompatActivity implements MainView{
+public class MainActivity extends AppCompatActivity implements MainView {
     private MainPresenterImpl mainPresenter;
 
     private FloatingActionButton button;
@@ -26,9 +25,10 @@ public class MainActivity extends AppCompatActivity implements MainView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = (FloatingActionButton) findViewById(R.id.fab);
-        button.hide();
+        mainPresenter = new MainPresenterImpl(this);
+        mainPresenter.setMapFragment(R.id.map);
 
+        button = (FloatingActionButton) findViewById(R.id.fab);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity implements MainView{
                 button.setEnabled(true);
             }
         });
-
-        mainPresenter = new MainPresenterImpl(this);
-        mainPresenter.setMapFragment(R.id.map);
     }
 
     @Override
@@ -55,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements MainView{
             case R.id.action_logs:
                 Intent myIntent = new Intent(MainActivity.this, UserLogActivityImpl.class);
                 this.startActivity(myIntent);
+                break;
+            case R.id.settings:
+                Intent i = new Intent(this, MyPreferencesActivity.class);
+                this.startActivity(i);
                 break;
             default:
                 break;

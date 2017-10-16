@@ -70,7 +70,7 @@ public class UserLogManagerImpl implements UserLogManager{
     }
 
     @Override
-    public List<UserLog>  fetchAll() {
+    public List<UserLog> fetchAll() {
         try {
             List<UserLog> lists  = helper.getUserLogDao().queryForAll();
             return lists;
@@ -90,10 +90,13 @@ public class UserLogManagerImpl implements UserLogManager{
             List<UserLog> list = helper.getUserLogDao().query(builder.prepare());  // returns list of ten items
 
             if(list.size() == 1){
+
                 UserLog last = list.get(0);
-                last.setEnd(end);
-                helper.getUserLogDao().createOrUpdate(last);
-                return last;
+                if(last.getEnd() == null) {
+                    last.setEnd(end);
+                    helper.getUserLogDao().createOrUpdate(last);
+                    return last;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

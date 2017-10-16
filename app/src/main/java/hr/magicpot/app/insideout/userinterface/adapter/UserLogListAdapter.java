@@ -1,20 +1,15 @@
 package hr.magicpot.app.insideout.userinterface.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,28 +52,16 @@ public class UserLogListAdapter extends ArrayAdapter<UserLog> {
         TextView textViewR = (TextView) rowView.findViewById(R.id.duration);
 
         UserLog log = mIdMap.get(position);
-        textViewL.setText(DateFormat.format("hh:mm:ss", log.getStart()));
+        textViewL.setText(UserLogHelper.formatData(log.getStart()));
 
         if(log.getEnd() == null) {
             textViewM.setText("-");
             textViewR.setText("?");
         }
         else {
-            textViewM.setText(DateFormat.format("hh:mm:ss", log.getEnd()));
-
-            double duration = (log.getEnd().getTime() - log.getStart().getTime())/1000.0;
-
-            String durationText = "";
-            if(duration < 60)
-                durationText = Math.round(duration * 100)/100.0 +" s";
-            else if(duration > 60 && duration < 60*60)
-                durationText = Math.round(duration/60.0 * 100)/100.0+" m";
-            else if(duration > 60*60)
-                durationText =  Math.round(duration/(60.0*60.0) * 100)/100.0+" h";
-
-            textViewR.setText(durationText);
+            textViewM.setText(UserLogHelper.formatData(log.getEnd()));
+            textViewR.setText(UserLogHelper.formatDuration(log.getStart(), log.getEnd()));
         }
-
 
         return rowView;
     }

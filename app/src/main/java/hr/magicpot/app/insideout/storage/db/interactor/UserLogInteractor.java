@@ -22,4 +22,6 @@ public interface UserLogInteractor {
     void fetchAll(UserLogPresenter.OnUserLogEvent event);
 
     UserLog setEndTime(Date end);
+
+    void exportData(UserLogPresenter.OnUserLogEvent event);
 }

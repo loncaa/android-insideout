@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:title="Circle radius"
+        android:summary="Define radius of circle in which user need to enter to start counting the time."
+        android:inputType="number"
+        android:key="radius"/>
+</PreferenceScreen>

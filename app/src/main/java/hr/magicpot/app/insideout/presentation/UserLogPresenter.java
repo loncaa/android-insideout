@@ -16,4 +16,6 @@ public interface UserLogPresenter {
     }
 
     void fechedUserLogData();
+
+    void exportUserLogData();
 }
