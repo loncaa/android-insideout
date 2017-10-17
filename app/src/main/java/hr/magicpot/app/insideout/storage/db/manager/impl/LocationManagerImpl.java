@@ -14,10 +14,6 @@ import hr.magicpot.app.insideout.storage.db.DBHelper;
 import hr.magicpot.app.insideout.storage.db.manager.LocationManager;
 import hr.magicpot.app.insideout.storage.db.model.Location;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
-
 public class LocationManagerImpl implements LocationManager {
     private final DBHelper helper;
     private final Handler handler;

@@ -7,9 +7,6 @@ import hr.magicpot.app.insideout.storage.db.manager.LocationManager;
 import hr.magicpot.app.insideout.storage.db.manager.impl.LocationManagerImpl;
 import hr.magicpot.app.insideout.storage.db.model.Location;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
 public class PinLocationInteractorImpl implements PinLocationInteractor, LocationManager.onDatabaseConnection {
     private final LocationManager locationManager;
     private final onDatabaseListener checkListener;

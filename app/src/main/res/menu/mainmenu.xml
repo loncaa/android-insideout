@@ -4,13 +4,11 @@
 
     <item
         android:id="@+id/action_logs"
-        android:icon="@drawable/ic_assessment_white_48dp"
-        android:title="Logs"
-        app:showAsAction="always"/>
+        android:title="Log report"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/settings"
-        android:icon="@drawable/ic_settings_white_48dp"
         android:title="Settings"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 </menu>

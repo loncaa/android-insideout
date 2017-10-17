@@ -13,7 +13,6 @@ import android.widget.Toast;
 import hr.magicpot.app.insideout.R;
 import hr.magicpot.app.insideout.presentation.impl.MainPresenterImpl;
 import hr.magicpot.app.insideout.userinterface.MainView;
-import hr.magicpot.app.insideout.userinterface.MyPreferencesActivity;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     private MainPresenterImpl mainPresenter;
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

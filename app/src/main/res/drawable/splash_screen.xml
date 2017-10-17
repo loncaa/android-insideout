@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+
+    <!--source: https://android.jlelse.eu/launch-screen-in-android-the-right-way-aca7e8c31f52-->
+
+    <item android:drawable="@color/colorPrimary"/>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_map_marker_circle_white_48dp" />
+    </item>
+</layer-list>

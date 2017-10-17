@@ -31,10 +31,6 @@ import hr.magicpot.app.insideout.storage.db.interactor.impl.PinLocationInteracto
 import hr.magicpot.app.insideout.storage.db.model.Location;
 import hr.magicpot.app.insideout.userinterface.impl.MainActivity;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
-
 public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListener, GoogleMap.OnMapLongClickListener, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private final MainActivity mainActivity;
@@ -46,7 +42,7 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
     private Circle circleLocation;
     private double circleRadius = 50;
 
-    private LocationManager locationManager;
+    private final LocationManager locationManager;
 
     private Intent locatonIntent;
 
@@ -152,12 +148,14 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
     }
 
     public void stopTracking() {
-        mainActivity.hideResetButton();
+        if(markerLocation != null && circleLocation != null) {
+            mainActivity.hideResetButton();
 
-        markerLocation.remove();
-        circleLocation.remove();
+            markerLocation.remove();
+            circleLocation.remove();
 
-        mainActivity.stopService(locatonIntent);
+            mainActivity.stopService(locatonIntent);
+        }
     }
 
     public void showSettingsDialog() {

@@ -3,7 +3,7 @@
 
     <EditTextPreference
         android:title="Circle radius"
-        android:summary="Define radius of circle in which user need to enter to start counting the time."
+        android:summary="Define radius of circle in meters. When user enters circle time counting starts."
         android:inputType="number"
         android:key="radius"/>
 </PreferenceScreen>

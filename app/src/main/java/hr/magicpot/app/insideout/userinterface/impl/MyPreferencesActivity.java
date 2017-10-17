@@ -1,4 +1,4 @@
-package hr.magicpot.app.insideout.userinterface;
+package hr.magicpot.app.insideout.userinterface.impl;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import hr.magicpot.app.insideout.R;
 
 /**
- * Created by Antonio on 16.10.2017..
+ * source: https://alvinalexander.com/android/android-tutorial-preferencescreen-preferenceactivity-preferencefragment
  */
 
 public class MyPreferencesActivity extends PreferenceActivity {
@@ -40,7 +40,7 @@ public class MyPreferencesActivity extends PreferenceActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             try{
-                Toast.makeText(this.getActivity(), "Stored (" + sharedPreferences.getString(key, "50") +")", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Stored", Toast.LENGTH_SHORT).show();
             }catch (NullPointerException ignore) {
                 Log.e("NULLP", this.getActivity() + " " + sharedPreferences + " " + key);
             }

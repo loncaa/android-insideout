@@ -44,14 +44,14 @@
         android:id="@+id/textView3" />
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_below="@+id/textView">
     </ListView>
 
-    <android.support.design.widget.FloatingActionButton
+   <!-- <android.support.design.widget.FloatingActionButton
         android:id="@+id/export"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
@@ -61,6 +61,6 @@
         android:src="@drawable/ic_print_white_48dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@android:id/list"/>
+        app:layout_anchor="@android:id/list"/>-->
 
 </RelativeLayout>

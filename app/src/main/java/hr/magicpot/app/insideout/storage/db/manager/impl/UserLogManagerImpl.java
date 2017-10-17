@@ -17,10 +17,6 @@ import hr.magicpot.app.insideout.storage.db.DBHelper;
 import hr.magicpot.app.insideout.storage.db.manager.UserLogManager;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
-
 public class UserLogManagerImpl implements UserLogManager{
     private final DBHelper helper;
     private final Handler handler;
@@ -72,8 +68,7 @@ public class UserLogManagerImpl implements UserLogManager{
     @Override
     public List<UserLog> fetchAll() {
         try {
-            List<UserLog> lists  = helper.getUserLogDao().queryForAll();
-            return lists;
+            return helper.getUserLogDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -6,9 +6,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
 @DatabaseTable(tableName = "USERLOG")
 public class UserLog {
     @DatabaseField(generatedId = true, dataType = DataType.INTEGER) private int id;

@@ -4,10 +4,6 @@ import android.text.format.DateFormat;
 
 import java.util.Date;
 
-/**
- * Created by Antonio on 16.10.2017..
- */
-
 public class UserLogHelper {
     public static CharSequence formatData(Date date) {
         return DateFormat.format("hh:mm:ss", date);

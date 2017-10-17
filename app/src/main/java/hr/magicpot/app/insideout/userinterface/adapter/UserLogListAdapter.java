@@ -16,14 +16,10 @@ import java.util.List;
 import hr.magicpot.app.insideout.R;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
-/**
- * Created by Antonio on 12.9.2017..
- */
-
 public class UserLogListAdapter extends ArrayAdapter<UserLog> {
 
-    HashMap<Integer, UserLog> mIdMap = new HashMap<>();
-    int layoutRes;
+    final HashMap<Integer, UserLog> mIdMap = new HashMap<>();
+    final int layoutRes;
 
     public UserLogListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<UserLog> objects) {
         super(context, resource, objects);

@@ -1,5 +1,7 @@
 package hr.magicpot.app.insideout.presentation.impl;
 
+import android.app.Activity;
+
 import java.util.List;
 
 import hr.magicpot.app.insideout.presentation.UserLogPresenter;
@@ -8,9 +10,6 @@ import hr.magicpot.app.insideout.storage.db.interactor.impl.UserLogInteractorImp
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 import hr.magicpot.app.insideout.userinterface.UserLogView;
 
-/**
- * Created by Antonio on 12.9.2017..
- */
 public class UserLogPresenterImpl implements UserLogPresenter, UserLogPresenter.OnUserLogEvent {
     private final UserLogInteractor userLogInteractor;
     private final UserLogView activity;
@@ -37,6 +36,6 @@ public class UserLogPresenterImpl implements UserLogPresenter, UserLogPresenter.
 
     @Override
     public void exportUserLogData() {
-        userLogInteractor.exportData(this);
+        userLogInteractor.exportData(this, (Activity) activity);
     }
 }

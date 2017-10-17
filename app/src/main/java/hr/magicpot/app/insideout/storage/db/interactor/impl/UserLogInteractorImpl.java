@@ -1,5 +1,7 @@
 package hr.magicpot.app.insideout.storage.db.interactor.impl;
 
+import android.app.Activity;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +11,6 @@ import hr.magicpot.app.insideout.storage.db.interactor.UserLogInteractor;
 import hr.magicpot.app.insideout.storage.db.manager.UserLogManager;
 import hr.magicpot.app.insideout.storage.db.manager.impl.UserLogManagerImpl;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
-
-/**
- * Created by Antonio on 11.9.2017..
- */
 
 public class UserLogInteractorImpl implements UserLogInteractor{
     private final UserLogManager userLogManager;
@@ -38,10 +36,18 @@ public class UserLogInteractorImpl implements UserLogInteractor{
     }
 
     @Override
-    public void exportData(UserLogPresenter.OnUserLogEvent event) {
-
-        List<UserLog> logs = userLogManager.fetchAll();
-        String message = exporter.export(logs);
-        event.onMessageEvent(message);
+    public void exportData(final UserLogPresenter.OnUserLogEvent event, final Activity activity) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                List<UserLog> logs = userLogManager.fetchAll();
+                if(logs.size() > 0) {
+                    String message = exporter.export(logs, activity);
+                    event.onMessageEvent(message);
+                }
+                else
+                    event.onMessageEvent("Log list is empty.");
+            }
+        });
     }
 }

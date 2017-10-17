@@ -1,14 +1,12 @@
 package hr.magicpot.app.insideout.storage.db.interactor;
 
+import android.app.Activity;
+
 import java.util.Date;
 import java.util.List;
 
 import hr.magicpot.app.insideout.presentation.UserLogPresenter;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
-
-/**
- * Created by Antonio on 11.9.2017..
- */
 
 public interface UserLogInteractor {
     interface DatabaseListener extends Interactor.onDatabaseListener {
@@ -23,5 +21,5 @@ public interface UserLogInteractor {
 
     UserLog setEndTime(Date end);
 
-    void exportData(UserLogPresenter.OnUserLogEvent event);
+    void exportData(UserLogPresenter.OnUserLogEvent event, Activity context);
 }

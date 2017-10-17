@@ -4,9 +4,6 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
 @DatabaseTable(tableName = "LOCATION")
 public class Location {
     @DatabaseField(columnName = "id", generatedId = true, dataType = DataType.INTEGER) private int id;

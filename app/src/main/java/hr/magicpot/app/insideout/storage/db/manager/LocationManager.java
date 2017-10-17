@@ -4,10 +4,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import hr.magicpot.app.insideout.storage.db.model.Location;
 
-/**
- * Created by Antonio on 5.9.2017..
- */
-
 public interface LocationManager {
     interface onDatabaseConnection{
         void onMessage(String msg);

@@ -13,10 +13,6 @@ import java.sql.SQLException;
 import hr.magicpot.app.insideout.storage.db.model.Location;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
-/**
- * Created by xxx on 20.11.2016..
- */
-
 public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "insideout.db";

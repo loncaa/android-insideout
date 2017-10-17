@@ -21,10 +21,6 @@ import hr.magicpot.app.insideout.storage.db.interactor.UserLogInteractor;
 import hr.magicpot.app.insideout.storage.db.interactor.impl.UserLogInteractorImpl;
 import hr.magicpot.app.insideout.storage.db.model.UserLog;
 
-/**
- * Created by Antonio on 10.9.2017..
- */
-
 public class MyLocationManager extends Service {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 3 meters
     private static final long MIN_TIME_BW_UPDATES = 1000 * 0 * 1; // 1 minute
@@ -38,8 +34,6 @@ public class MyLocationManager extends Service {
     private double lat;
     private double lng;
     private double radisu;
-
-    private Context mContext;
 
     final LocationListener locationListener = new LocationListener() {
 
@@ -66,7 +60,7 @@ public class MyLocationManager extends Service {
 
     @Override
     public void onCreate() {
-        this.mContext = this;
+        Context mContext = this;
         userLogInteractor = new UserLogInteractorImpl();
 
         sharedPref = mContext.getSharedPreferences("insideout", Context.MODE_PRIVATE);
