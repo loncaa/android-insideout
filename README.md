@@ -4,3 +4,5 @@ aplikacija bi trebala startati nekakav timer, koji bi računao vrijeme provedeno
 nekakva određena primjena bi bila npr. da možemo znati koliko smo vremena proveli danas na poslu ili slično. 
 
 Vremena bi isto tako trebala biti spremljena negdje da ih možemo kasnije vidjeti po nekakvim datumima ili nešto slično.
+
+![alt text](https://raw.githubusercontent.com/loncaa/android-insideout/insideout_img.png)
