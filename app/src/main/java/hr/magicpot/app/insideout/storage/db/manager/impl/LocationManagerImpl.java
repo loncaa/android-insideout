@@ -14,6 +14,9 @@ import hr.magicpot.app.insideout.storage.db.DBHelper;
 import hr.magicpot.app.insideout.storage.db.manager.LocationManager;
 import hr.magicpot.app.insideout.storage.db.model.Location;
 
+/**
+ * https://developer.android.com/training/multiple-threads/communicate-ui.html
+ * */
 public class LocationManagerImpl implements LocationManager {
     private final DBHelper helper;
     private final Handler handler;
@@ -68,8 +71,9 @@ public class LocationManagerImpl implements LocationManager {
                                 location.setLng(latng.longitude);
 
                                 Dao.CreateOrUpdateStatus status = helper.getLocationDao().createOrUpdate(location);
-                                if(status.isCreated())
+                                if(status.isCreated()){
                                     listener.onStoreSuccess(location);
+                                }
                             }
                             else
                                 listener.onMessage("Location is already set.");

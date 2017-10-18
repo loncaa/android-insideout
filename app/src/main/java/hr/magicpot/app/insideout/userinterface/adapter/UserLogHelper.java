@@ -6,10 +6,13 @@ import java.util.Date;
 
 public class UserLogHelper {
     public static CharSequence formatData(Date date) {
-        return DateFormat.format("hh:mm:ss", date);
+        return date == null ? "-" : DateFormat.format("hh:mm:ss", date);
     }
 
     public static String formatDuration(Date start, Date end) {
+        if(start == null || end == null)
+            return "?";
+
         double duration = (end.getTime() - start.getTime())/1000.0;
 
         String durationText = "";
@@ -19,6 +22,7 @@ public class UserLogHelper {
             durationText = Math.round(duration/60.0 * 100)/100.0+" m";
         else if(duration > 60*60)
             durationText =  Math.round(duration/(60.0*60.0) * 100)/100.0+" h";
+
         return durationText;
     }
 }

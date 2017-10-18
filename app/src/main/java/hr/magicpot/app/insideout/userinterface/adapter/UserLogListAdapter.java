@@ -49,15 +49,8 @@ public class UserLogListAdapter extends ArrayAdapter<UserLog> {
 
         UserLog log = mIdMap.get(position);
         textViewL.setText(UserLogHelper.formatData(log.getStart()));
-
-        if(log.getEnd() == null) {
-            textViewM.setText("-");
-            textViewR.setText("?");
-        }
-        else {
-            textViewM.setText(UserLogHelper.formatData(log.getEnd()));
-            textViewR.setText(UserLogHelper.formatDuration(log.getStart(), log.getEnd()));
-        }
+        textViewM.setText(UserLogHelper.formatData(log.getEnd()));
+        textViewR.setText(UserLogHelper.formatDuration(log.getStart(), log.getEnd()));
 
         return rowView;
     }
