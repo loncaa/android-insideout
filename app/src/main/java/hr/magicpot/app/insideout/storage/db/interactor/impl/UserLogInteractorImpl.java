@@ -1,6 +1,7 @@
 package hr.magicpot.app.insideout.storage.db.interactor.impl;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -42,26 +43,41 @@ public class UserLogInteractorImpl implements UserLogInteractor{
 
     @Override
     public void exportData(final UserLogPresenter.OnUserLogEvent event, final Activity activity) {
-        new Thread(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<UserLog> logs = userLogManager.fetchAll();
-                        if (logs.size() > 0) {
-                            String message = exporter.export(logs, activity);
-                            event.onMessageEvent(message);
-                        } else
-                            event.onMessageEvent("Log list is empty.");
-                    }
-                });
+                new AsyncDataExport(event, activity).execute();
             }
-        }).start();
+        });
     }
 
-    @Override
-    public void onDataExported() {
+    private class AsyncDataExport extends AsyncTask<Void, Void, String> {
+        final UserLogPresenter.OnUserLogEvent event;
+        final Activity activity;
 
+        private AsyncDataExport(UserLogPresenter.OnUserLogEvent event, Activity activity) {
+            this.event = event;
+            this.activity = activity;
+        }
+
+        /**execute on background thread*/
+        @Override
+        protected String doInBackground(Void... params) {
+            List<UserLog> logs = userLogManager.fetchAll();
+            String message = "Log list is empty.";
+
+            if (logs.size() > 0) {
+                message = exporter.export(logs, activity);
+            }
+
+            return message;
+        }
+
+        /**execute on ui thread*/
+        @Override
+        protected void onPostExecute(String string) {
+            super.onPostExecute(string);
+            event.onMessageEvent(string);
+        }
     }
 }

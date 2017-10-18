@@ -43,38 +43,38 @@ public class UserLogExporter {
 
 
                 PdfPCell cell = new PdfPCell(new Phrase("Start"));
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
                 cell.setFixedHeight(30);
                 cell.setBorder(Rectangle.BOTTOM);
                 table.addCell(cell);
 
                 cell = new PdfPCell(new Phrase("End"));
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
                 cell.setFixedHeight(30);
                 cell.setBorder(Rectangle.BOTTOM);
                 table.addCell(cell);
 
                 cell = new PdfPCell(new Phrase("Duration"));
-                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 cell.setFixedHeight(30);
                 cell.setBorder(Rectangle.BOTTOM);
                 table.addCell(cell);
 
                 for(UserLog log : logs) {
-                    cell = new PdfPCell(new Phrase(UserLogHelper.formatData(log.getStart()).toString(), smallfont));
-                    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    cell = new PdfPCell(new Phrase(UserLogHelper.formatPdfData(log.getStart()).toString(), smallfont));
+                    cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
                     cell.setFixedHeight(30);
                     cell.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell);
 
-                    cell = new PdfPCell(new Phrase(UserLogHelper.formatData(log.getEnd()).toString(), smallfont));
-                    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    cell = new PdfPCell(new Phrase(UserLogHelper.formatPdfData(log.getEnd()).toString(), smallfont));
+                    cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
                     cell.setBorder(Rectangle.NO_BORDER);
                     table.addCell(cell);
 
                     cell = new PdfPCell(new Phrase(UserLogHelper.formatDuration(log.getStart(), log.getEnd()).toString(), smallfont));
                     cell.setBorder(Rectangle.NO_BORDER);
-                    cell.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     table.addCell(cell);
                 }
 
@@ -93,4 +93,6 @@ public class UserLogExporter {
 
         return "Exporting failed.";
     }
+
+
 }

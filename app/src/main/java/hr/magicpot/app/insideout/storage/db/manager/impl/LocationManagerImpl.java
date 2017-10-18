@@ -85,7 +85,7 @@ public class LocationManagerImpl implements LocationManager {
                     }
                 });
             }
-        }).start();
+        }).run();
     }
 
     @Override

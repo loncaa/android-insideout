@@ -8,6 +8,10 @@ public class UserLogHelper {
     public static CharSequence formatData(Date date) {
         return date == null ? "-" : DateFormat.format("hh:mm:ss", date);
     }
+    public static CharSequence formatPdfData(Date date) {
+        return date == null ? "-" : DateFormat.format("hh:mm:ss dd.MM.yyyy", date);
+    }
+
 
     public static String formatDuration(Date start, Date end) {
         if(start == null || end == null)
