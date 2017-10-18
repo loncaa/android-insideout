@@ -5,4 +5,4 @@ nekakva određena primjena bi bila npr. da možemo znati koliko smo vremena prov
 
 Vremena bi isto tako trebala biti spremljena negdje da ih možemo kasnije vidjeti po nekakvim datumima ili nešto slično.
 
-![alt text](https://raw.githubusercontent.com/loncaa/android-insideout/insideout_img.png)
+![alt text](https://github.com/loncaa/android-insideout/blob/master/insideout_img.png)
