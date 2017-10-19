@@ -64,13 +64,11 @@ public class UserLogInteractorImpl implements UserLogInteractor{
         @Override
         protected String doInBackground(Void... params) {
             List<UserLog> logs = userLogManager.fetchAll();
-            String message = "Log list is empty.";
 
-            if (logs.size() > 0) {
-                message = exporter.export(logs, activity);
-            }
+            if (logs.size() == 0)
+                return "There is no logs.";
 
-            return message;
+            return exporter.export(logs, activity);
         }
 
         /**execute on ui thread*/

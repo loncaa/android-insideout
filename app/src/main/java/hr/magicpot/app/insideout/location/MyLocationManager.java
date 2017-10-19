@@ -33,7 +33,7 @@ public class MyLocationManager extends Service {
 
     private double lat;
     private double lng;
-    private double radisu;
+    private double radius;
 
     final LocationListener locationListener = new LocationListener() {
 
@@ -94,7 +94,7 @@ public class MyLocationManager extends Service {
     private void startLocationService(Intent intent) {
         lat = intent.getDoubleExtra("lat", 0);
         lng = intent.getDoubleExtra("lng", 0);
-        radisu = intent.getDoubleExtra("radisu", 0);
+        radius = intent.getDoubleExtra("radius", 0);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {return;}
 
@@ -142,7 +142,7 @@ public class MyLocationManager extends Service {
     private boolean isInsideCircle(android.location.Location location) {
         float[] distance = new float[2];
         android.location.Location.distanceBetween(location.getLatitude(), location.getLongitude(), lat, lng, distance);
-        return distance[0] < radisu;
+        return distance[0] < radius;
     }
 
     @Nullable

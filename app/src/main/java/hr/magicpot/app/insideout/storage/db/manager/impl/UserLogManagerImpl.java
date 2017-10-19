@@ -51,10 +51,9 @@ public class UserLogManagerImpl implements UserLogManager{
                     public void run() {
                         try {
                             List<UserLog> lists  = helper.getUserLogDao().queryForAll();
-                            if(lists.size() > 0)
+                            if(lists.size() >  0)
                                 event.onLogListFeched(lists);
-                            else
-                                event.onMessageEvent("List is empty.");
+
                         } catch (SQLException e) {
                             e.printStackTrace();
                             event.onMessageEvent("Fetch db failed.");
@@ -85,7 +84,6 @@ public class UserLogManagerImpl implements UserLogManager{
             List<UserLog> list = helper.getUserLogDao().query(builder.prepare());  // returns list of ten items
 
             if(list.size() == 1){
-
                 UserLog last = list.get(0);
                 if(last.getEnd() == null) {
                     last.setEnd(end);

@@ -44,7 +44,7 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
 
     private final LocationManager locationManager;
 
-    private Intent locatonIntent;
+    private Intent locationIntent;
 
     public MainPresenterImpl(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -69,11 +69,11 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
         int p2 = ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.ACCESS_COARSE_LOCATION);
         if (p1 != PackageManager.PERMISSION_GRANTED && p2 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            return;
         }
-        else {
-            this.mMap.setMyLocationEnabled(true);
-            pinLocationInteractor.fetchLocation();
-        }
+
+        this.mMap.setMyLocationEnabled(true);
+        pinLocationInteractor.fetchLocation();
     }
 
     @Override
@@ -83,15 +83,16 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mainActivity.getBaseContext());
-        circleRadius = Double.parseDouble(SP.getString("radius", "50"));
-
-        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        if(isGPSEnabled)
-            pinLocationInteractor.store(latLng);
-        else
+        if(!checkGPSProviderEnabled()){
             mainActivity.showSettingsAlert();
+            return;
+        }
+
+        pinLocationInteractor.store(latLng);
+    }
+
+    public boolean checkGPSProviderEnabled(){
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     @Override
@@ -121,16 +122,18 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
 
     private void startTracking(Location location) {
         Log.d("LOC", "lat: " + location.getLat() + " lng: " + location.getLng());
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(mainActivity.getBaseContext());
+        circleRadius = Double.parseDouble(SP.getString("radius", "50"));
 
         mainActivity.showResetButton();
         setMarkerData(location);
 
-        this.locatonIntent = new Intent(mainActivity, MyLocationManager.class);
-        this.locatonIntent.putExtra("lat", location.getLat());
-        this.locatonIntent.putExtra("lng", location.getLng());
-        this.locatonIntent.putExtra("radisu", circleRadius);
+        this.locationIntent = new Intent(mainActivity, MyLocationManager.class);
+        this.locationIntent.putExtra("lat", location.getLat());
+        this.locationIntent.putExtra("lng", location.getLng());
+        this.locationIntent.putExtra("radius", circleRadius);
 
-        mainActivity.startService(locatonIntent);
+        mainActivity.startService(locationIntent);
     }
 
     private void setMarkerData(Location location) {
@@ -154,14 +157,14 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
             markerLocation.remove();
             circleLocation.remove();
 
-            mainActivity.stopService(locatonIntent);
+            mainActivity.stopService(locationIntent);
         }
     }
 
     public void showSettingsDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mainActivity);
 
-        alertDialog.setTitle("GPS is settings");
+        alertDialog.setTitle("GPS settings");
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
 
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
@@ -173,6 +176,9 @@ public class MainPresenterImpl implements PinLocationInteractor.onDatabaseListen
 
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                if(!checkGPSProviderEnabled())
+                    onMessage("For full user experience enable GPS.");
+
                 dialog.cancel();
             }
         });

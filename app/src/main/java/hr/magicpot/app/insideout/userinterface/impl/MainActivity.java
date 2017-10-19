@@ -16,7 +16,6 @@ import hr.magicpot.app.insideout.userinterface.MainView;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     private MainPresenterImpl mainPresenter;
-
     private FloatingActionButton button;
 
     @Override
@@ -33,10 +32,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
             @Override
             public void onClick(View v) {
                 mainPresenter.processResetButton();
-
-                button.setEnabled(true);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean gpsProviderEnabled = mainPresenter.checkGPSProviderEnabled();
+        if(!gpsProviderEnabled)
+            showSettingsAlert();
     }
 
     @Override

@@ -38,10 +38,9 @@ public class LocationManagerImpl implements LocationManager {
                             List<Location> lists  = helper.getLocationDao().query(
                                     helper.getLocationDao().queryBuilder()
                                             .where().eq("lng", latLng.longitude).and().eq("lat", latLng.latitude)
-                                            .prepare()
-                            );
+                                            .prepare());
 
-                            if(lists.size() == 0)
+                            if(lists.size() > 0)
                                 listener.onFetchSuccess(lists.get(0));
 
                         } catch (SQLException e) {
@@ -65,18 +64,19 @@ public class LocationManagerImpl implements LocationManager {
                         try {
                             List<Location> lists  = helper.getLocationDao().queryForAll();
 
-                            if(lists.size() == 0) {
-                                Location location = new Location();
-                                location.setLat(latng.latitude);
-                                location.setLng(latng.longitude);
-
-                                Dao.CreateOrUpdateStatus status = helper.getLocationDao().createOrUpdate(location);
-                                if(status.isCreated()){
-                                    listener.onStoreSuccess(location);
-                                }
+                            if(lists.size() > 0){
+                                listener.onMessage("The location is already set.");
+                                return;
                             }
-                            else
-                                listener.onMessage("Location is already set.");
+
+                            Location location = new Location();
+                            location.setLat(latng.latitude);
+                            location.setLng(latng.longitude);
+
+                            Dao.CreateOrUpdateStatus status = helper.getLocationDao().createOrUpdate(location);
+                            if(status.isCreated()){
+                                listener.onStoreSuccess(location);
+                            }
 
                         } catch (SQLException e) {
                             listener.onMessage("Storing data failed.");
@@ -98,11 +98,12 @@ public class LocationManagerImpl implements LocationManager {
                     public void run() {
                         try {
                             List<Location> lists = helper.getLocationDao().queryForAll();
-                            if(lists.size() > 0 && lists.get(0) != null)
-                                listener.onFetchSuccess(lists.get(0));
-                            else
+                            if(lists.size() == 0 || lists.get(0) == null){
                                 listener.onMessage("Long tap on map to set location.");
+                                return;
+                            }
 
+                            listener.onFetchSuccess(lists.get(0));
                         } catch (SQLException e) {
                             listener.onMessage("Fetching data failed");
                             e.printStackTrace();

@@ -40,7 +40,7 @@ public class MyPreferencesActivity extends PreferenceActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             try{
-                Toast.makeText(this.getActivity(), "Stored", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Successfully stored.", Toast.LENGTH_SHORT).show();
             }catch (NullPointerException ignore) {
                 Log.e("NULLP", this.getActivity() + " " + sharedPreferences + " " + key);
             }

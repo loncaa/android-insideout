@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditTextPreference
+    <hr.magicpot.app.insideout.SafeEditTextPreference
         android:title="Circle radius"
         android:summary="Define radius of circle in meters. When user enters circle time counting starts."
         android:inputType="number"
-        android:key="radius"/>
+        android:key="radius"
+        />
 </PreferenceScreen>
